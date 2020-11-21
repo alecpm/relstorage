@@ -154,6 +154,8 @@ class Psycopg2ConnectionManager(AbstractConnectionManager):
         psycopg2.extensions.ISOLATION_LEVEL_READ_COMMITTED)
     isolation_serializable = (
         psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE)
+    isolation_repeatable_read = (
+        psycopg2.extensions.ISOLATION_LEVEL_REPEATABLE_READ)
 
     disconnected_exceptions = disconnected_exceptions
     close_exceptions = close_exceptions
@@ -215,7 +217,7 @@ class Psycopg2ConnectionManager(AbstractConnectionManager):
 
         Returns (conn, cursor).
         """
-        conn, cursor = self.open(self.isolation_serializable,
+        conn, cursor = self.open(self.isolation_repeatable_read,
             replica_selector=self.ro_replica_selector)
         if self.keep_history:
             stmt = """
